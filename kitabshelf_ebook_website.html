@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KitabShelf — eBook Library</title>
+<style>
+:root{--bg:#f6f4ef;--ink:#20231f;--muted:#6d746d;--green:#236b50;--lime:#d9efb4;--card:#fff;--line:#e6e5de;--shadow:0 12px 35px #26332312}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.nav{max-width:1160px;margin:auto;padding:14px 22px;display:flex;align-items:center;gap:24px}
+.logo{font-weight:850;font-size:22px;letter-spacing:-.8px;color:var(--green);white-space:nowrap}.logo span{color:#b2c878}
+nav{display:flex;gap:18px;flex:1}nav button{border:0;background:none;color:#515a52;font:inherit;cursor:pointer;padding:8px 2px}nav button.active{color:var(--green);font-weight:750;border-bottom:2px solid var(--green)}
+.btn{border:0;border-radius:12px;padding:11px 16px;background:var(--green);color:#fff;font-weight:700;cursor:pointer}.btn.light{background:#eef4e9;color:var(--green)}.btn:active{transform:translateY(1px)}
+main{max-width:1160px;margin:auto;padding:28px 22px 60px}
+.hero{border-radius:24px;padding:38px;min-height:260px;background:linear-gradient(110deg,#183e31,#28664e 58%,#86a96b);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:20px;overflow:hidden;position:relative}
+.hero:after{content:"✦";font-size:230px;color:#ffffff12;position:absolute;right:9%;top:-85px}
+.hero .copy{max-width:600px;position:relative;z-index:1}.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:800;color:#d9efb4}.hero h1{font-size:clamp(30px,5vw,49px);line-height:1.1;letter-spacing:-1.8px;margin:12px 0}.hero p{color:#e2eee5;max-width:500px}.hero .btn{background:var(--lime);color:#244b35;margin-top:10px}
+.hero-art{font-size:105px;position:relative;z-index:1;filter:drop-shadow(0 15px 8px #10291d55);margin-right:5%}
+.tools{display:flex;gap:12px;margin:25px 0;flex-wrap:wrap}.search{flex:1;min-width:210px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:13px 15px;font:inherit}.select{border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 12px;font:inherit;color:#3f4941}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin:28px 0 15px;gap:10px}.section-head h2{margin:0;font-size:23px;letter-spacing:-.6px}.section-head p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}.book{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:12px;box-shadow:var(--shadow);min-width:0;display:flex;flex-direction:column}
+.cover{height:175px;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;color:#fff;position:relative;overflow:hidden}
+.cover:before{content:"";position:absolute;width:150px;height:150px;border:1px solid #ffffff45;border-radius:50%;right:-60px;bottom:-70px}.cover .symbol{font-size:42px;display:block;margin-bottom:8px}.cover b{font-size:18px;line-height:1.2;position:relative;z-index:1}.cover small{display:block;margin-top:9px;opacity:.8}
+.c1{background:linear-gradient(145deg,#a85e40,#e0a66b)}.c2{background:linear-gradient(145deg,#273f67,#6386aa)}.c3{background:linear-gradient(145deg,#3e705a,#9bbd7e)}.c4{background:linear-gradient(145deg,#674d83,#b18bc4)}.c5{background:linear-gradient(145deg,#a13e49,#df8582)}.c6{background:linear-gradient(145deg,#45565b,#9baeb1)}.c7{background:linear-gradient(145deg,#a37b31,#e0c06e)}.c8{background:linear-gradient(145deg,#365d73,#74b0b6)}
+.book h3{font-size:15px;margin:12px 2px 3px}.author{color:var(--muted);font-size:12px;margin:0 2px 8px}.meta{display:flex;justify-content:space-between;color:#667067;font-size:12px;margin: auto 2px 10px;padding-top:10px}.price{font-weight:800;color:var(--green)}.book-actions{display:flex;gap:8px}.book-actions button{flex:1;padding:9px 8px;font-size:12px;border-radius:10px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:28px}.panel h2{margin:0 0 5px}.panel p{color:var(--muted);margin:0 0 14px}
+.sellgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.field{display:flex;flex-direction:column;gap:6px;margin:10px 0}.field label{font-size:13px;font-weight:700}.field input,.field textarea,.field select{border:1px solid var(--line);border-radius:10px;padding:11px;font:inherit;background:#fff}.field textarea{min-height:80px;resize:vertical}.hint{font-size:12px;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:22px;text-align:center;color:var(--muted);font-size:12px}
+.modal{display:none;position:fixed;inset:0;background:#10161099;z-index:10;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.dialog{background:#fff;border-radius:18px;padding:23px;max-width:520px;width:100%;max-height:85vh;overflow:auto}.dialog-head{display:flex;justify-content:space-between;align-items:center}.x{border:0;background:#f0f0eb;border-radius:50%;width:34px;height:34px;font-size:19px;cursor:pointer}.reader{white-space:pre-wrap;background:#faf9f4;border-radius:12px;padding:18px;margin-top:14px;color:#333}
+.notice{padding:12px;border-radius:12px;background:#fff6df;color:#77591c;font-size:13px;margin-top:12px}
+.empty{padding:35px;text-align:center;color:var(--muted);grid-column:1/-1}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-art{font-size:75px}.nav{gap:12px}nav{gap:10px}}
+@media(max-width:560px){.nav{flex-wrap:wrap;padding:12px 15px}.logo{flex:1}nav{order:3;flex-basis:100%;overflow:auto}main{padding:18px 14px 45px}.hero{padding:25px 22px;min-height:230px}.hero-art{font-size:55px;margin:0}.hero h1{font-size:31px}.grid{gap:10px}.cover{height:145px}.cover b{font-size:15px}.book{padding:9px}.book-actions{flex-direction:column}.sellgrid{grid-template-columns:1fr}.tools{gap:8px}.select{height:44px;flex:1}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+<div class="logo">Kitab<span>✦</span>Shelf</div>
+<nav>
+<button class="active" data-page="home">Home</button><button data-page="library">Free Library</button><button data-page="store">eBook Store</button><button data-page="sell">Sell Your eBook</button>
+</nav>
+<button class="btn light" onclick="go('shelf')">My Shelf <span id="shelfCount">0</span></button>
+</div></header>
+<main>
+<section id="homePage">
+<div class="hero"><div class="copy"><div class="eyebrow">A little reading, a lot of growth</div><h1>Find your next<br>great read.</h1><p>Discover free books, explore new ideas, and build your own digital bookshelf.</p><button class="btn" onclick="go('library')">Explore library →</button></div><div class="hero-art">📚</div></div>
+<div class="tools"><input id="searchHome" class="search" placeholder="Search books, authors, topics..." oninput="render()"><select id="genreHome" class="select" onchange="render()"><option value="">All topics</option><option>Science</option><option>Learning</option><option>Stories</option><option>Technology</option><option>Self Growth</option></select></div>
+<div class="section-head"><div><h2>Featured reads</h2><p>Hand-picked titles to get you started</p></div><button class="btn light" onclick="go('store')">View store</button></div>
+<div class="grid" id="homeBooks"></div>
+</section>
+<section id="libraryPage" hidden><div class="section-head"><div><h2>Free Library</h2><p>Read and explore free sample books</p></div></div><div class="tools"><input id="searchLibrary" class="search" placeholder="Search free books..." oninput="render()"><select id="genreLibrary" class="select" onchange="render()"><option value="">All topics</option><option>Science</option><option>Learning</option><option>Stories</option><option>Technology</option><option>Self Growth</option></select></div><div class="grid" id="libraryBooks"></div></section>
+<section id="storePage" hidden><div class="section-head"><div><h2>eBook Store</h2><p>Browse titles and see demo pricing</p></div></div><div class="tools"><input id="searchStore" class="search" placeholder="Search store..." oninput="render()"><select id="genreStore" class="select" onchange="render()"><option value="">All topics</option><option>Science</option><option>Learning</option><option>Stories</option><option>Technology</option><option>Self Growth</option></select></div><div class="grid" id="storeBooks"></div><div class="notice">Demo store: checkout and real payments are not connected. Add a payment provider and backend before selling.</div></section>
+<section id="shelfPage" hidden><div class="section-head"><div><h2>My Shelf</h2><p>Books you saved for later</p></div></div><div class="grid" id="shelfBooks"></div></section>
+<section id="sellPage" hidden><div class="section-head"><div><h2>Publish your eBook</h2><p>Add a book listing to this demo shelf.</p></div></div>
+<div class="panel"><div class="sellgrid"><div><h2>Book details</h2><p>Fill in the details to preview your listing.</p>
+<div class="field"><label>Book title</label><input id="newTitle" placeholder="e.g. Space for Beginners"></div>
+<div class="field"><label>Author name</label><input id="newAuthor" placeholder="Your name"></div>
+<div class="field"><label>Topic</label><select id="newGenre"><option>Science</option><option>Learning</option><option>Stories</option><option>Technology</option><option>Self Growth</option></select></div>
+<div class="field"><label>Price (₹, 0 = free)</label><input id="newPrice" type="number" min="0" value="0"></div>
+<div class="field"><label>Short description</label><textarea id="newDesc" placeholder="What will readers learn?"></textarea></div>
+<div class="field"><label>PDF file (optional demo input)</label><input id="newFile" type="file" accept=".pdf,application/pdf"><span class="hint">This prototype does not upload or host the file online.</span></div>
+<button class="btn" onclick="addBook()">Add listing</button><div id="formMsg" class="hint"></div></div>
+<div><h2>How selling works</h2><p>For a real eBook business, you need:</p><ul><li>A place to securely store PDF files</li><li>A payment provider and order confirmation</li><li>Download access after successful payment</li><li>Clear copyright and refund policies</li><li>Privacy and contact information</li></ul><div class="notice">Only list books you wrote or have permission to sell. This demo saves listings only in the current page session.</div></div></div></div>
+</section>
+</main>
+<footer>KitabShelf · Demo eBook website · Read curious, stay curious.</footer>
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="dialog"><div class="dialog-head"><h2 id="modalTitle">Book</h2><button class="x" onclick="closeModal()">×</button></div><div id="modalBody"></div></div></div>
+<script>
+const books=[
+{id:1,title:"A Short Guide to the Universe",author:"Open Shelf",genre:"Science",price:0,desc:"A friendly first look at stars, galaxies, planets, and the questions that shape astronomy.",cls:"c2",symbol:"🌌"},
+{id:2,title:"Learn Better, Every Day",author:"Mira Sen",genre:"Learning",price:99,desc:"Simple study habits, focus methods, and ways to make learning feel manageable.",cls:"c3",symbol:"✍️"},
+{id:3,title:"The Little Book of Big Ideas",author:"A. Verma",genre:"Self Growth",price:49,desc:"Short reflections on curiosity, patience, creativity, and making steady progress.",cls:"c7",symbol:"💡"},
+{id:4,title:"Stories Under the Moon",author:"Neha Rao",genre:"Stories",price:0,desc:"A collection of gentle short stories about friendship, courage, and new beginnings.",cls:"c4",symbol:"🌙"},
+{id:5,title:"Python: First Steps",author:"Code Corner",genre:"Technology",price:149,desc:"An introductory path through variables, conditions, loops, and tiny projects.",cls:"c6",symbol:"🐍"},
+{id:6,title:"The Red Planet",author:"Open Shelf",genre:"Science",price:79,desc:"Explore Mars, its landscape, robotic visitors, and the search for signs of life.",cls:"c5",symbol:"🪐"},
+{id:7,title:"Math Without Fear",author:"R. Sharma",genre:"Learning",price:0,desc:"A calm, example-first introduction to building confidence with everyday math.",cls:"c1",symbol:"➗"},
+{id:8,title:"Build Your First Website",author:"Pixel Press",genre:"Technology",price:129,desc:"Learn how HTML and CSS fit together to make a simple responsive web page.",cls:"c8",symbol:"💻"}
+];
+let saved=[],extra=[],page="home";
+function all(){return [...books,...extra]}
+function card(b){return `<article class="book"><div class="cover ${b.cls||'c8'}"><div><span class="symbol">${b.symbol||'📘'}</span><b>${esc(b.title)}</b><small>${esc(b.genre)}</small></div></div><h3>${esc(b.title)}</h3><p class="author">by ${esc(b.author)}</p><div class="meta"><span>${b.price===0?'Free':'eBook'}</span><span class="price">${b.price===0?'₹0':`₹${b.price}`}</span></div><div class="book-actions"><button class="btn light" onclick="details(${b.id})">Details / Read</button><button class="btn" onclick="saveBook(${b.id})">${saved.includes(b.id)?'Saved ✓':'＋ Shelf'}</button></div></article>`}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function filtered(type,freeOnly=false){let q=(document.getElementById('search'+type)?.value||'').toLowerCase(),g=document.getElementById('genre'+type)?.value||'';return all().filter(b=>(!freeOnly||b.price===0)&&(!q||(b.title+' '+b.author+' '+b.genre).toLowerCase().includes(q))&&(!g||b.genre===g))}
+function render(){
+document.getElementById('homeBooks').innerHTML=filtered('Home').slice(0,4).map(card).join('')||'<div class="empty">No books found.</div>';
+document.getElementById('libraryBooks').innerHTML=filtered('Library',true).map(card).join('')||'<div class="empty">No free books found.</div>';
+document.getElementById('storeBooks').innerHTML=filtered('Store').map(card).join('')||'<div class="empty">No books found.</div>';
+document.getElementById('shelfBooks').innerHTML=all().filter(b=>saved.includes(b.id)).map(card).join('')||'<div class="empty">Your shelf is empty. Save a book to keep it here.</div>';
+document.getElementById('shelfCount').textContent=saved.length;
+}
+function go(p){page=p;['home','library','store','shelf','sell'].forEach(x=>document.getElementById(x+'Page').hidden=x!==p);document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p));render();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+function saveBook(id){if(!saved.includes(id))saved.push(id);render()}
+function details(id){let b=all().find(x=>x.id===id);if(!b)return;document.getElementById('modalTitle').textContent=b.title;document.getElementById('modalBody').innerHTML=`<p><b>Author:</b> ${esc(b.author)} · <b>Topic:</b> ${esc(b.genre)}</p><p>${esc(b.desc)}</p><div class="notice">${b.price===0?'Free demo reading preview.':'Demo price: ₹'+b.price+' — payment is not enabled.'}</div><div class="reader"><b>Reading preview</b>\n\nWelcome to ${esc(b.title)}.\n\nThis is a sample preview for the website prototype. Add your own book text or connect a secure PDF reader/storage service to provide the full book.</div><p style="margin-top:15px"><button class="btn" onclick="saveBook(${id});closeModal()">＋ Save to My Shelf</button></p>`;document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function addBook(){let title=document.getElementById('newTitle').value.trim(),author=document.getElementById('newAuthor').value.trim(),price=Math.max(0,Number(document.getElementById('newPrice').value)||0),genre=document.getElementById('newGenre').value,desc=document.getElementById('newDesc').value.trim();if(!title||!author){document.getElementById('formMsg').textContent='Please enter the book title and author.';return}extra.push({id:Date.now(),title,author,genre,price,desc:desc||'A new listing on KitabShelf.',cls:['c1','c2','c3','c4'][extra.length%4],symbol:'📖'});document.getElementById('formMsg').textContent='Listing added to this demo! It is not published online.';['newTitle','newAuthor','newDesc'].forEach(id=>document.getElementById(id).value='');render()}
+render();
+</script>
+</body></html>
