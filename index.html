@@ -130,7 +130,10 @@ const books=[
 ];
 let saved=[],extra=[],page="home";
 function all(){return [...books,...extra]}
-function card(b){return `<article class="book"><div class="cover ${b.cls||'c8'}"><div><span class="symbol">${b.symbol||'📘'}</span><b>${esc(b.title)}</b><small>${esc(b.genre)}</small></div></div><h3>${esc(b.title)}</h3><p class="author">by ${esc(b.author)}</p><div class="meta"><span>${b.price===0?'Free':'eBook'}</span><span class="price">${b.price===0?'₹0':`₹${b.price}`}</span></div><div class="book-actions"><button class="btn light" onclick="details(${b.id})">Details / Read</button><button class="btn" onclick="saveBook(${b.id})">${saved.includes(b.id)?'Saved ✓':'＋ Shelf'}</button></div></article>`}
+function card(b){return(`)<article class="book">`<button class="btn"
+onclick="readBook(${b.id})">
+  📖 Read PDF
+</button><div class="cover ${b.cls||'c8'}"><div><span class="symbol">${b.symbol||'📘'}</span><b>${esc(b.title)}</b><small>${esc(b.genre)}</small></div></div><h3>${esc(b.title)}</h3><p class="author">by ${esc(b.author)}</p><div class="meta"><span>${b.price===0?'Free':'eBook'}</span><span class="price">${b.price===0?'₹0':`₹${b.price}`}</span></div><div class="book-actions"><button class="btn light" onclick="details(${b.id})">Details / Read</button><button class="btn" onclick="saveBook(${b.id})">${saved.includes(b.id)?'Saved ✓':'＋ Shelf'}</button></div></article>`}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function filtered(type,freeOnly=false){let q=(document.getElementById('search'+type)?.value||'').toLowerCase(),g=document.getElementById('genre'+type)?.value||'';return all().filter(b=>(!freeOnly||b.price===0)&&(!q||(b.title+' '+b.author+' '+b.genre).toLowerCase().includes(q))&&(!g||b.genre===g))}
 function render(){
