@@ -145,7 +145,69 @@ document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()
 function saveBook(id){if(!saved.includes(id))saved.push(id);render()}
 function details(id){let b=all().find(x=>x.id===id);if(!b)return;document.getElementById('modalTitle').textContent=b.title;document.getElementById('modalBody').innerHTML=`<p><b>Author:</b> ${esc(b.author)} · <b>Topic:</b> ${esc(b.genre)}</p><p>${esc(b.desc)}</p><div class="notice">${b.price===0?'Free demo reading preview.':'Demo price: ₹'+b.price+' — payment is not enabled.'}</div><div class="reader"><b>Reading preview</b>\n\nWelcome to ${esc(b.title)}.\n\nThis is a sample preview for the website prototype. Add your own book text or connect a secure PDF reader/storage service to provide the full book.</div><p style="margin-top:15px"><button class="btn" onclick="saveBook(${id});closeModal()">＋ Save to My Shelf</button></p>`;document.getElementById('modal').classList.add('show')}
 function closeModal(){document.getElementById('modal').classList.remove('show')}
-function addBook(){let title=document.getElementById('newTitle').value.trim(),author=document.getElementById('newAuthor').value.trim(),price=Math.max(0,Number(document.getElementById('newPrice').value)||0),genre=document.getElementById('newGenre').value,desc=document.getElementById('newDesc').value.trim();if(!title||!author){document.getElementById('formMsg').textContent='Please enter the book title and author.';return}extra.push({id:Date.now(),title,author,genre,price,desc:desc||'A new listing on KitabShelf.',cls:['c1','c2','c3','c4'][extra.length%4],symbol:'📖'});document.getElementById('formMsg').textContent='Listing added to this demo! It is not published online.';['newTitle','newAuthor','newDesc'].forEach(id=>document.getElementById(id).value='');render()}
+
+function addBook() {
+  const title = document.getElementById('newTitle').value.trim();
+  const author = document.getElementById('newAuthor').value.trim();
+  const price = Math.max(0, Number(document.getElementById('newPrice').value) || 0);
+  const genre = document.getElementById('newGenre').value;
+  const desc = document.getElementById('newDesc').value.trim();
+  const fileInput = document.getElementById('newFile');
+  const file = fileInput.files[0];
+
+  if (!title || !author) {
+    document.getElementById('formMsg').textContent =
+      'Please enter the book title and author.';
+    return;
+  }
+
+  if (file && file.type !== 'application/pdf') {
+    document.getElementById('formMsg').textContent =
+      'Please upload a PDF file.';
+    return;
+  }
+
+  function saveBook(pdfData = '') {
+    extra.push({
+      id: Date.now(),
+      title,
+      author,
+      genre,
+      price,
+      desc: desc || 'A new listing on KitabShelf.',
+      cls: ['c1', 'c2', 'c3', 'c4'][extra.length % 4],
+      symbol: '📖',
+      pdfData: pdfData
+    });
+
+    render();
+
+    document.getElementById('formMsg').textContent =
+      'Book added successfully!';
+
+    ['newTitle', 'newAuthor', 'newDesc', 'newPrice']
+      .forEach(id => document.getElementById(id).value = '');
+
+    fileInput.value = '';
+  }
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = function() {
+      saveBook(reader.result);
+    };
+
+    reader.onerror = function() {
+      document.getElementById('formMsg').textContent =
+        'PDF could not be read. Try again.';
+    };
+
+    reader.readAsDataURL(file);
+  } else {
+    saveBook();
+  }
+}
 render();
 </script>
 </body></html>
