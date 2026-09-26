@@ -32,7 +32,58 @@ footer{border-top:1px solid var(--line);padding:22px;text-align:center;color:var
 .empty{padding:35px;text-align:center;color:var(--muted);grid-column:1/-1}
 @media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-art{font-size:75px}.nav{gap:12px}nav{gap:10px}}
 @media(max-width:560px){.nav{flex-wrap:wrap;padding:12px 15px}.logo{flex:1}nav{order:3;flex-basis:100%;overflow:auto}main{padding:18px 14px 45px}.hero{padding:25px 22px;min-height:230px}.hero-art{font-size:55px;margin:0}.hero h1{font-size:31px}.grid{gap:10px}.cover{height:145px}.cover b{font-size:15px}.book{padding:9px}.book-actions{flex-direction:column}.sellgrid{grid-template-columns:1fr}.tools{gap:8px}.select{height:44px;flex:1}}
-</style>
+/* Professional improvements */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: system-ui, Arial, sans-serif;
+  line-height: 1.6;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  transition: 0.2s ease;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.book:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px #163b2b20;
+}
+
+.book {
+  transition: 0.2s ease;
+}
+
+input:focus, select:focus,
+textarea:focus {
+  outline: 2px solid #23845b;
+  outline-offset: 2px;
+}
+
+.hero {
+  box-shadow: 0 12px 30px #163b2b12;
+}
+
+@media (max-width: 560px) {
+  .nav {
+    gap: 10px;
+  }
+
+  .hero {
+    border-radius: 22px;
+  }
+  }</style>
 </head>
 <body>
 <header><div class="nav">
